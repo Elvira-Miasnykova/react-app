@@ -4,22 +4,30 @@ import Button from "./components/Button.jsx";
 import fetchJokes from './services/api';
 
 function App() {
-  const [jokeName, setJokeName] = useState(null);
-  const [nextJoke, setNextJoke] = useState(1);
+  const [jokeName, setJokeName] = useState("");
+  //const [nextJoke, setNextJoke] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // if (jokeName === null) {
-    //   return;
+    //  if (jokeName !==setJokeName(jokeName)) {
+    //    return;
     // }
 
     fetchJokes()
-      .then(results => setJokeName(results.results.value))
-  }, [nextJoke])
+      //.then(setLoading(true))
+      .then(response => setJokeName(response.value))
+      //setJokeName(response.value)).catch(error => console.log(error))
+    //.finally(setLoading(false))
+  }, [])
+  const loadMore = () => {
+    fetchJokes().then(response=>  setJokeName(response.value));
+  
+  }
   return (
     <div className="App">
-      {jokeName=== null ? <p>Loading...</p> : <p>{ jokeName}</p>}
+      {jokeName=== "" ? <p>Loading...</p> : <p>{ jokeName}</p>}
            
-      <Button onClick={ () => setNextJoke(nextJoke + 1)} />
+      <Button onClick={() => loadMore()}/>
       
     </div>
   );
