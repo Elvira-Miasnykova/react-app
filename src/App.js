@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Button from "./components/Button.jsx";
+import fetchJokes from './services/api';
 
 function App() {
+  const [jokeName, setJokeName] = useState(null);
+  const [nextJoke, setNextJoke] = useState(1);
+
+  useEffect(() => {
+    // if (jokeName === null) {
+    //   return;
+    // }
+
+    fetchJokes()
+      .then(results => setJokeName(results.results.value))
+  }, [nextJoke])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {jokeName=== null ? <p>Loading...</p> : <p>{ jokeName}</p>}
+           
+      <Button onClick={ () => setNextJoke(nextJoke + 1)} />
+      
     </div>
   );
 }
