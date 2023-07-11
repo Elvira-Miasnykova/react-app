@@ -8,26 +8,24 @@ function App() {
   //const [nextJoke, setNextJoke] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    //  if (jokeName !==setJokeName(jokeName)) {
-    //    return;
-    // }
-
+  const getJokes = () => {
     fetchJokes()
-      //.then(setLoading(true))
+      .then(setLoading(true))
       .then(response => setJokeName(response.value))
-      //setJokeName(response.value)).catch(error => console.log(error))
-    //.finally(setLoading(false))
-  }, [])
-  const loadMore = () => {
-    fetchJokes().then(response=>  setJokeName(response.value));
-  
+      .catch(error => console.log(error))
+      .finally(setLoading(false))
+    
   }
+
+  useEffect(() => {
+    getJokes();
+  }, [])
+  
   return (
     <div className="App">
       {jokeName=== "" ? <p>Loading...</p> : <p>{ jokeName}</p>}
            
-      <Button onClick={() => loadMore()}/>
+      <Button onClick={() => getJokes()}/>
       
     </div>
   );
